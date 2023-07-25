@@ -29,7 +29,7 @@ public class Screen extends Canvas {
     }
     
     public void clear() {
-        for (int i = 0; i < ; i++) {
+        for (int i = 0; i < getWidth() * getHeight(); i++) {
             
         }
     }
