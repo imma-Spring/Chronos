@@ -6,16 +6,16 @@ import com.Chronos.render.Screen;
 import com.Chronos.render.Window;
 import com.Chronos.util.vector.Vector2;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.IntStream;
 
 public abstract class Chronos {
+    private boolean god = false;
     public static final double MAX_FRAME_RATE = 1.0 / 60.0;
     private final int w, h, scale;
     private final Window window;
-    private Screen screen;
-    private List<Body> bodies;
+    private final Screen screen;
+    private final List<Body> bodies;
 
     private Body background;
 
@@ -25,7 +25,7 @@ public abstract class Chronos {
         this.scale = scale;
         window = new Window(game, w, h, scale);
         screen = new Screen(w, h, backgroundColor, this);
-        bodies = new ArrayList<>();
+        bodies = Collections.synchronizedList(new LinkedList<>());
         new Input(this);
         start();
     }
@@ -66,11 +66,11 @@ public abstract class Chronos {
 
     private void start() {
         addBodies();
-        Thread update = new Thread(this::update);
+        Thread update = new Thread(this::updateGame);
         update.start();
     }
 
-    private void update() {
+    private void updateGame() {
         boolean render = false;
         double startTime = System.nanoTime() / 10e8;
         double currentTime = 0;
@@ -88,8 +88,11 @@ public abstract class Chronos {
                 onCollisionExit();
                 onCollision();
                 updateBodies((float) passedTime * 10);
+                update();
                 remove();
+                Signal.sendSignal(Signal.reset);
                 render = true;
+                if (god) return;
             }
             if (!render) {
                 try {
@@ -183,5 +186,37 @@ public abstract class Chronos {
 
     protected List<Body> getBodies() {
         return bodies;
+    }
+
+    public abstract void update();
+
+    protected void endProgram(int code) {
+        System.out.printf("Program ended with code of %d%n", code);
+        god = true;
+    }
+
+    protected Optional<Body> getBody(String name) {
+        for (Body b : bodies) {
+            if (b.getName().equals(name))
+                return Optional.of(b);
+        }
+        return Optional.empty();
+    }
+
+    protected Optional<Body> getBody(Class<? extends Body> type) {
+        for (Body b : bodies) {
+            if (b.getClass().equals(type))
+                return Optional.of(b);
+        }
+        return Optional.empty();
+    }
+
+    protected int count(Class<? extends Body> type) {
+        int i = 0;
+        for (Body b : bodies) {
+            if (b.getClass().equals(type))
+                i++;
+        }
+        return i;
     }
 }

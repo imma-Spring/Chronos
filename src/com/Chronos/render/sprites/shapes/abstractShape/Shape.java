@@ -25,4 +25,8 @@ public abstract class Shape extends Sprite {
     public abstract void fill();
     @Override
     public abstract Vector2<Integer> getSize();
+
+    public int getColor() {
+        return color;
+    }
 }

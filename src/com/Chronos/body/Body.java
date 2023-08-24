@@ -8,7 +8,7 @@ import com.Chronos.util.vector.Vector3;
 import java.util.Objects;
 
 public abstract class Body {
-    private final String name;
+    protected final String name;
     public Hitbox hitbox;
     protected Vector3<Float> position;
     protected Sprite sprite;
