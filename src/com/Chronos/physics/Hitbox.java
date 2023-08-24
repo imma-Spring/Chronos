@@ -55,48 +55,43 @@ public class Hitbox {
         List<Body> hit = new ArrayList<>();
         for (Body b : bodies) {
             Hitbox h = b.hitbox;
-            if (b.getName().equals(bodies.get(index).getName()))
-                break;
-            if (!h.position.z.equals(position.z))
-                break;
+            if (b.getName().equals(bodies.get(index).getName()) || !h.position.z.equals(position.z)) break;
             Vector2<Float> centeroftarget = h.position.toVec2().center(h.size, false);
             float topoftarget = centeroftarget.y + (h.size.y / 2);
             float bottomoftarget = centeroftarget.y - (h.size.y / 2);
             float rightoftarget = centeroftarget.x + (h.size.x / 2);
             float leftoftarget = centeroftarget.x - (h.size.x / 2);
 //            detecting if a hitbox intersects another
-            if (bottom < topoftarget && top > topoftarget && center.x < leftoftarget && center.x > rightoftarget)
-                hit.add(b);
-            else if (bottom < bottomoftarget && top > bottomoftarget && center.x < leftoftarget
-                    && center.x > rightoftarget) hit.add(b);
-            else if (left < rightoftarget && right > rightoftarget && center.y < topoftarget
-                    && center.y > bottomoftarget) hit.add(b);
-            else if (left < leftoftarget && right > leftoftarget && center.y < topoftarget
-                    && center.y > bottomoftarget) hit.add(b);
-            else if (left < leftoftarget && right > leftoftarget && bottom < topoftarget && top > topoftarget)
-                hit.add(b);
-            else if (left < rightoftarget && right > rightoftarget && bottom < topoftarget && top > topoftarget)
-                hit.add(b);
-            else if (left < leftoftarget && right > leftoftarget && bottom < bottomoftarget && top > bottomoftarget)
-                hit.add(b);
-            else if (left < rightoftarget && right > rightoftarget && bottom < bottomoftarget
-                    && top > bottomoftarget) hit.add(b);
+            if (((bottom < topoftarget) && (top > topoftarget) && (center.x < leftoftarget) && (center.x
+                    > rightoftarget))
+                    || ((bottom < bottomoftarget) && (top > bottomoftarget) && (center.x < leftoftarget)
+                    && (center.x > rightoftarget))
+                    || ((left < rightoftarget) && (right > rightoftarget) && (center.y < topoftarget)
+                    && (center.y > bottomoftarget))
+                    || ((left < leftoftarget) && (right > leftoftarget) && (center.y < topoftarget)
+                    && (center.y > bottomoftarget))
+                    || ((left < leftoftarget) && (right > leftoftarget) && (bottom < topoftarget) && (top
+                    > topoftarget))
+                    || ((left < rightoftarget) && (right > rightoftarget) && (bottom < topoftarget) && (top
+                    > topoftarget))
+                    || ((left < leftoftarget) && (right > leftoftarget) && (bottom < bottomoftarget) && (top
+                    > bottomoftarget))
+                    || ((left < rightoftarget) && (right > rightoftarget) && (bottom < bottomoftarget)
+                    && (top > bottomoftarget))) hit.add(b);
         }
         current = new CollisionEvent(hit);
         hit = new ArrayList<>();
-        if (last != null){
+        if (last != null) {
             var prev = last.getCollisions();
-            for (Body b : current.getCollisions()) {
+            for (Body b : current.getCollisions())
                 if (!prev.contains(b))
                     hit.add(b);
-            }
             enter = new CollisionEvent(hit);
             hit = new ArrayList<>();
             var cur = current.getCollisions();
-            for (Body b : prev) {
+            for (Body b : prev)
                 if (!cur.contains(b))
                     hit.add(b);
-            }
         } else {
             hit = current.getCollisions();
             enter = new CollisionEvent(hit);

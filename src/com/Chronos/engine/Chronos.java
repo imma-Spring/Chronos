@@ -8,6 +8,7 @@ import com.Chronos.render.sprites.Sprite;
 import com.Chronos.util.vector.Vector2;
 
 import java.util.*;
+import java.util.stream.IntStream;
 
 public abstract class Chronos {
     private boolean god = false;
@@ -35,7 +36,7 @@ public abstract class Chronos {
     }
 
     protected Chronos(String game, Vector2<Integer> dim, int scale, int backgroundColor) {
-        this(game, dim.x, dim.y);
+        this(game, dim.x, dim.y, scale, backgroundColor);
     }
 
     protected Chronos(String game, int dim, int backgroundColor) {
@@ -53,13 +54,12 @@ public abstract class Chronos {
     public abstract void addBodies();
 
     protected void addBody(Body b) {
-        for (int i = 0; i < bodies.size(); i++) {
+        for (int i = 0; i < bodies.size(); i++)
             if (bodies.get(i).getPosition().z.compareTo(b.getPosition().z) > 0) {
                 bodies.add(i, b);
                 b.start();
                 return;
             }
-        }
         b.start();
         bodies.add(b);
     }
@@ -94,12 +94,10 @@ public abstract class Chronos {
                 render = true;
                 if (god) return;
             }
-            if (!render) {
-                try {
-                    Thread.sleep(1);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+            if (!render) try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
             else {
                 window.update();
@@ -112,46 +110,30 @@ public abstract class Chronos {
 
 
     private void remove() {
-        for (int i = 0; i < bodies.size(); i++) {
-            if (bodies.get(i).destroyed) bodies.remove(bodies.get(i));
-        }
+        IntStream.range(0, bodies.size()).filter(i -> bodies.get(i).destroyed).forEach(i -> bodies.remove(bodies.get(i)));
     }
 
     private void updateBodies(float dt) {
-        for (Body body : bodies) {
-            if (!body.destroyed)
-                body.update(dt);
-        }
+        bodies.stream().filter(body -> !body.destroyed).forEach(body -> body.update(dt));
     }
 
     private void collision() {
-        for (int i = 0; i < bodies.size(); i++) {
-            bodies.get(i).hitbox.collisionEvents(bodies, i);
-        }
+        IntStream.range(0, bodies.size()).forEachOrdered(i -> bodies.get(i).hitbox.collisionEvents(bodies, i));
     }
 
     private void onCollisionEnter() {
-        for (Body b : bodies) {
-            if (b.hitbox.collisionEvents[1] != null && !b.destroyed) {
-                b.onCollisionEnter(b.hitbox.collisionEvents[1]);
-            }
-        }
+        bodies.stream().filter(b -> b.hitbox.collisionEvents[1] != null
+                && !b.destroyed).forEachOrdered(b -> b.onCollisionEnter(b.hitbox.collisionEvents[1]));
     }
 
     private void onCollisionExit() {
-        for (Body b : bodies) {
-            if (b.hitbox.collisionEvents[2] != null && !b.destroyed) {
-                b.onCollisionExit(b.hitbox.collisionEvents[2]);
-            }
-        }
+        bodies.stream().filter(b -> b.hitbox.collisionEvents[2] != null
+                && !b.destroyed).forEachOrdered(b -> b.onCollisionExit(b.hitbox.collisionEvents[2]));
     }
 
     private void onCollision() {
-        for (Body b : bodies) {
-            if (b.hitbox.collisionEvents[0] != null && !b.destroyed) {
-                b.onCollision(b.hitbox.collisionEvents[0]);
-            }
-        }
+        bodies.stream().filter(b -> b.hitbox.collisionEvents[0] != null
+                && !b.destroyed).forEachOrdered(b -> b.onCollision(b.hitbox.collisionEvents[0]));
     }
 
     public int getWidth() {
@@ -171,18 +153,12 @@ public abstract class Chronos {
     }
 
     private void renderBackground() {
-        if (background == null) {
-            screen.clear();
-        } else {
-            screen.drawSprite(background);
-        }
+        if (background != null) screen.drawSprite(background);
+        else screen.clear();
     }
 
     private void renderBodies() {
-        for (Body b :
-                bodies) {
-            screen.drawSprite(b.getSprite(), b.getPosition().toVec2().center(b.getSprite().getSize(), false));
-        }
+        bodies.forEach(b -> screen.drawSprite(b.getSprite(), b.getPosition().toVec2().center(b.getSprite().getSize(), false)));
     }
 
     protected List<Body> getBodies() {
@@ -213,16 +189,7 @@ public abstract class Chronos {
     }
 
     protected int count(Class<? extends Body> type) {
-        int i = 0;
-        for (Body b : bodies) {
-            if (b.getClass().equals(type))
-                i++;
-        }
-        return i;
-    }
-
-    protected void exit() {
-        god = false;
+        return (int) bodies.stream().filter(b -> b.getClass().equals(type)).count();
     }
 
     protected void setBackground(Sprite background) {

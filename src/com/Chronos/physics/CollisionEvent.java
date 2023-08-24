@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class CollisionEvent {
     private final List<Body> bodies;
@@ -22,19 +23,11 @@ public class CollisionEvent {
     }
 
     public boolean isCollision(String name) {
-        for (Body body : bodies) {
-            if (body.getName().equals(name))
-                return true;
-        }
-        return false;
+        return bodies.stream().anyMatch(body -> body.getName().equals(name));
     }
 
     public boolean isCollision(Class<? extends Body> type) {
-        for (Body body : bodies) {
-            if (body.getClass().equals(type))
-                return true;
-        }
-        return false;
+        return bodies.stream().anyMatch(body -> body.getClass().equals(type));
     }
 
     public List<Body> getCollisions() {
@@ -43,14 +36,9 @@ public class CollisionEvent {
 
     @SuppressWarnings("unchecked")
     public <U extends Body> Optional<List<U>> getCollisions(Class<U> type) {
-        List<U> typeBodies = new ArrayList<>();
-        for (Body body : bodies) {
-            if (body.getClass().equals(type))
-                typeBodies.add((U) body);
-        }
-        if (typeBodies.size() > 0)
-            return Optional.of(typeBodies);
-        return Optional.empty();
+        List<U> typeBodies =
+                bodies.stream().filter(body -> body.getClass().equals(type)).map(body -> (U) body).collect(Collectors.toList());
+        return typeBodies.size() > 0 ? Optional.of(typeBodies) : Optional.empty();
     }
 
     @Override

@@ -2,7 +2,10 @@ package com.Chronos.engine;
 
 import com.Chronos.util.tuple.Pair;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
 
 public class Signal {
     public static final String reset = "Signal reset: all";
@@ -16,10 +19,7 @@ public class Signal {
     }
 
     public static Optional<List<Object[]>> getSignal(String message) {
-        if (contains(message)) {
-            return Optional.ofNullable(get(message));
-        }
-        return Optional.empty();
+        return contains(message) ? Optional.ofNullable(get(message)) : Optional.empty();
     }
 
     private static void add(String message, Object[] packets) {
@@ -29,29 +29,14 @@ public class Signal {
             signals.add(new Pair<>(message, lo));
             return;
         }
-        for (var signal : signals) {
-            if (signal.key.equals(message)) {
-                signal.value.add(packets);
-                return;
-            }
-        }
+        signals.stream().filter(signal -> signal.key.equals(message)).findFirst().ifPresent(signal -> signal.value.add(packets));
     }
 
     private static boolean contains(String message) {
-        for (var signal : signals) {
-            if (signal.key.equals(message)) {
-                return true;
-            }
-        }
-        return false;
+        return signals.stream().anyMatch(signal -> signal.key.equals(message));
     }
 
     private static List<Object[]> get(String message) {
-        for (var signal : signals) {
-            if (signal.key.equals(message)) {
-                return signal.value;
-            }
-        }
-        return null;
+        return signals.stream().filter(signal -> signal.key.equals(message)).findFirst().map(signal -> signal.value).orElse(null);
     }
 }
