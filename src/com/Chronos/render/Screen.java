@@ -1,5 +1,6 @@
 package com.Chronos.render;
 
+import com.Chronos.body.Body;
 import com.Chronos.engine.Chronos;
 import com.Chronos.render.sprites.Sprite;
 import com.Chronos.util.vector.Vector2;
@@ -13,6 +14,8 @@ public class Screen {
     private final int[] p;
     private int[] zB;
     public int backgroundColor;
+
+    public final Vector2<Integer> center;
 
     public Screen(Chronos c) {
         this(100, 100, BLACK, c);
@@ -36,6 +39,7 @@ public class Screen {
         pH = h;
         p = ((DataBufferInt) c.getWindow().getImage().getRaster().getDataBuffer()).getData();
         zB = new int[p.length];
+        center = new Vector2<>(w / 2, h / 2);
     }
 
     public Screen(Vector2<Integer> size, int color, Chronos c) {
@@ -75,5 +79,13 @@ public class Screen {
                 int x = position.x + j, y = position.y + i;
                 drawPixel(x, y, sprite.p()[j + i * sprite.w()]);
             }
+    }
+
+    public void drawSprite(Sprite sprite) {
+        drawSprite(sprite, Vector2.center(center, sprite.getSize()));
+    }
+
+    public void drawSprite(Body body) {
+        drawSprite(body.getSprite(), Vector2.center(body.getPosition().toVec2(), body.getSprite().getSize()));
     }
 }

@@ -39,17 +39,11 @@ public abstract class Body {
 
     public abstract Sprite getSprite();
 
-    public void onCollisionEnter(CollisionEvent collisionEvent) {
+    public void onCollisionEnter(CollisionEvent collisionEvent) { }
 
-    }
+    public void onCollisionExit(CollisionEvent collisionEvent) { }
 
-    public void onCollisionExit(CollisionEvent collisionEvent) {
-
-    }
-
-    public void onCollision(CollisionEvent collisionEvent) {
-
-    }
+    public void onCollision(CollisionEvent collisionEvent) { }
 
     public void destroy() {
         destroyed = true;

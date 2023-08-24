@@ -4,10 +4,10 @@ import com.Chronos.body.Body;
 import com.Chronos.input.Input;
 import com.Chronos.render.Screen;
 import com.Chronos.render.Window;
+import com.Chronos.render.sprites.Sprite;
 import com.Chronos.util.vector.Vector2;
 
 import java.util.*;
-import java.util.stream.IntStream;
 
 public abstract class Chronos {
     private boolean god = false;
@@ -17,7 +17,7 @@ public abstract class Chronos {
     private final Screen screen;
     private final List<Body> bodies;
 
-    private Body background;
+    private Sprite background;
 
     protected Chronos(String game, int w, int h, int scale, int backgroundColor) {
         this.w = w;
@@ -110,6 +110,7 @@ public abstract class Chronos {
         }
     }
 
+
     private void remove() {
         for (int i = 0; i < bodies.size(); i++) {
             if (bodies.get(i).destroyed) bodies.remove(bodies.get(i));
@@ -173,7 +174,7 @@ public abstract class Chronos {
         if (background == null) {
             screen.clear();
         } else {
-            //screen.render(background)
+            screen.drawSprite(background);
         }
     }
 
@@ -218,5 +219,13 @@ public abstract class Chronos {
                 i++;
         }
         return i;
+    }
+
+    protected void exit() {
+        god = false;
+    }
+
+    protected void setBackground(Sprite background) {
+        this.background = background;
     }
 }
