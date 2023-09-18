@@ -240,4 +240,29 @@ public class Vector3<T extends Number> extends Vector {
     public String toString() {
         return "[%s, %s, %s]".formatted(x, y, z);
     }
+
+    @SuppressWarnings("unchecked")
+    public <U extends Number> Vector3<U> convert(U type) {
+        Vector3<U> returnVec = new Vector3<>();
+        if (type instanceof Integer) {
+            returnVec.x = (U) Integer.valueOf(this.x.intValue());
+            returnVec.y = (U) Integer.valueOf(this.y.intValue());
+            returnVec.z = (U) Integer.valueOf(this.z.intValue());
+        } else if (type instanceof Double) {
+            returnVec.x = (U) Double.valueOf(this.x.intValue());
+            returnVec.y = (U) Double.valueOf(this.y.intValue());
+            returnVec.z = (U) Double.valueOf(this.z.intValue());
+        } else if (type instanceof Long) {
+            returnVec.x = (U) Long.valueOf(this.x.intValue());
+            returnVec.y = (U) Long.valueOf(this.y.intValue());
+            returnVec.z = (U) Long.valueOf(this.z.intValue());
+        } else if (type instanceof Float) {
+            returnVec.x = (U) Float.valueOf(this.x.intValue());
+            returnVec.y = (U) Float.valueOf(this.y.intValue());
+            returnVec.z = (U) Float.valueOf(this.z.intValue());
+        } else if (x instanceof Vector) {
+            throw new IllegalArgumentException();
+        }
+        return returnVec;
+    }
 }

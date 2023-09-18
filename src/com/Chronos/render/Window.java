@@ -1,5 +1,7 @@
 package com.Chronos.render;
 
+import com.Chronos.render.sprites.shapes.abstractShape.Square;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;

@@ -1,5 +1,7 @@
 package com.Chronos.util.vector;
 
+import java.security.NoSuchProviderException;
+
 public class Vector2<T extends Number> extends Vector {
     public T x, y;
 
@@ -256,5 +258,26 @@ public class Vector2<T extends Number> extends Vector {
     @Override
     public String toString() {
         return "[%s, %s]".formatted(x.toString(), y.toString());
+    }
+
+    @SuppressWarnings("unchecked")
+    public <U extends Number> Vector2<U> convert(U type) {
+        Vector2<U> returnVec = new Vector2<>();
+        if (type instanceof Integer) {
+            returnVec.x = (U) Integer.valueOf(this.x.intValue());
+            returnVec.y = (U) Integer.valueOf(this.y.intValue());
+        } else if (type instanceof Double) {
+            returnVec.x = (U) Double.valueOf(this.x.intValue());
+            returnVec.y = (U) Double.valueOf(this.y.intValue());
+        } else if (type instanceof Long) {
+            returnVec.x = (U) Long.valueOf(this.x.intValue());
+            returnVec.y = (U) Long.valueOf(this.y.intValue());
+        } else if (type instanceof Float) {
+            returnVec.x = (U) Float.valueOf(this.x.intValue());
+            returnVec.y = (U) Float.valueOf(this.y.intValue());
+        } else if (x instanceof Vector) {
+            throw new IllegalArgumentException();
+        }
+        return returnVec;
     }
 }

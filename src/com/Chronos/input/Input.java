@@ -1,40 +1,55 @@
 package com.Chronos.input;
 
 import com.Chronos.engine.Chronos;
-import com.Chronos.util.vector.Vector2;
 
 import java.awt.event.*;
+import java.util.Arrays;
 
-public class Input implements MouseWheelListener, MouseMotionListener, KeyListener, MouseListener {
-    private static Vector2<Integer> mousePosition = new Vector2<>(0);
-    private static boolean mouseOnScreen = true, mousePressed;
-    public static final int NUM_KEYS = 256;
-    private static boolean[] keys = new boolean[NUM_KEYS];
-    private static boolean[] keysLast = new boolean[NUM_KEYS];
-    public static final int NUM_BUTTONS = 256;
-    private static boolean[] buttons = new boolean[NUM_BUTTONS];
-    private static boolean[] buttonsLast = new boolean[NUM_BUTTONS];
-    private static int scroll = 0;
-    private int scale;
-    public Input(Chronos c) {
-        c.getWindow().getScreen().addKeyListener(this);
-        c.getWindow().getScreen().addMouseWheelListener(this);
-        c.getWindow().getScreen().addMouseMotionListener(this);
-        c.getWindow().getScreen().addMouseListener(this);
-        scale = c.getScale();
+public final class Input implements KeyListener, MouseListener, MouseMotionListener, MouseWheelListener {
+    private final Chronos engine;
+
+    private static final int NUM_KEYS = 256;
+    private static final boolean[] keys = new boolean[NUM_KEYS];
+    private static final boolean[] keysLast = new boolean[NUM_KEYS];
+
+    private static final int NUM_BUTTONS = 5;
+    private static final boolean[] buttons = new boolean[NUM_BUTTONS];
+    private static final boolean[] buttonsLast = new boolean[NUM_BUTTONS];
+    private static int mouseX, mouseY;
+    private static int scroll;
+    public Input(Chronos engine) {
+        this.engine = engine;
+        mouseX = 0;
+        mouseY = 0;
+        scroll = 0;
+
+        engine.getWindow().getScreen().addKeyListener(this);
+        engine.getWindow().getScreen().addMouseMotionListener(this);
+        engine.getWindow().getScreen().addMouseListener(this);
+        engine.getWindow().getScreen().addMouseWheelListener(this);
     }
+
+    public void update() {
+        scroll = 0;
+
+        System.arraycopy(keys, 0, keysLast, 0, NUM_KEYS);
+
+        System.arraycopy(buttons, 0, buttonsLast, 0, NUM_BUTTONS);
+    }
+
     @Override
     public void keyTyped(KeyEvent e) {
+
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-
+        keys[e.getKeyCode()] = true;
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-
+        keys[e.getKeyCode()] = false;
     }
 
     @Override
@@ -44,58 +59,98 @@ public class Input implements MouseWheelListener, MouseMotionListener, KeyListen
 
     @Override
     public void mousePressed(MouseEvent e) {
-        mousePosition = new Vector2<>(e.getX(), e.getY());
-        mousePosition.divide(scale);
-        mousePressed = true;
+        buttons[e.getButton()] = true;
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        mousePosition = new Vector2<>(e.getX(), e.getY());
-        mousePosition.divide(scale);
-        mousePressed = false;
+        buttons[e.getButton()] = false;
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        mousePosition = new Vector2<>(e.getX(), e.getY());
-        mousePosition.divide(scale);
-        mouseOnScreen = true;
+
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        mousePosition = new Vector2<>(e.getX(), e.getY());
-        mousePosition.divide(scale);
-        mouseOnScreen = false;
+
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        mousePosition = new Vector2<>(e.getX(), e.getY());
-        mousePosition.divide(scale);
+        mouseX = (int)(e.getX() / engine.getScale());
+        mouseY = (int)(e.getY() / engine.getScale());
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        mousePosition = new Vector2<>(e.getX(), e.getY());
-        mousePosition.divide(scale);
+        mouseX = (int)(e.getX() / engine.getScale());
+        mouseY = (int)(e.getY() / engine.getScale());
     }
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
-
+        scroll = e.getWheelRotation();
     }
 
-    public static Vector2<Integer> getMousePosition() {
-        return mousePosition;
+    public static boolean isKeyPressed(int keyCode) {
+        try {
+            return keys[keyCode];
+        } catch (IndexOutOfBoundsException e) {
+            throw new IllegalArgumentException("Key does not exist");
+        }
     }
 
-    public static boolean isMouseOnScreen() {
-        return mouseOnScreen;
+    public static boolean isKeyUp(int keyCode) {
+        try {
+            return !keys[keyCode] && keysLast[keyCode];
+        } catch (IndexOutOfBoundsException e) {
+            throw new IllegalArgumentException("Key does not exist");
+        }
     }
 
-    public static boolean isMousePressed() {
-        return mousePressed;
+    public static boolean isKeyDown(int keyCode) {
+        try {
+            return keys[keyCode] && !keysLast[keyCode];
+        } catch (IndexOutOfBoundsException e) {
+            throw new IllegalArgumentException("Key does not exist");
+        }
+    }
+
+    public static boolean isButtonPressed(int button) {
+        try {
+            return buttons[button];
+        } catch (IndexOutOfBoundsException e) {
+            throw new IllegalArgumentException("Key does not exist");
+        }
+    }
+
+    public static boolean isButtonUp(int button) {
+        try {
+            return !buttons[button] && buttonsLast[button];
+        } catch (IndexOutOfBoundsException e) {
+            throw new IllegalArgumentException("Key does not exist");
+        }
+    }
+
+    public static boolean isButtonDown(int button) {
+        try {
+            return buttons[button] && !buttonsLast[button];
+        } catch (IndexOutOfBoundsException e) {
+            throw new IllegalArgumentException("Key does not exist");
+        }
+    }
+
+    public static int getMouseX() {
+        return mouseX;
+    }
+
+    public static int getMouseY() {
+        return mouseY;
+    }
+
+    public static int getScroll() {
+        return scroll;
     }
 }

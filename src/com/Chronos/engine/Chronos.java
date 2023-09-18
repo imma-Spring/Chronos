@@ -7,27 +7,35 @@ import com.Chronos.render.Window;
 import com.Chronos.render.sprites.Sprite;
 import com.Chronos.util.vector.Vector2;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 public abstract class Chronos {
-    private boolean god = false;
     public static final double MAX_FRAME_RATE = 1.0 / 60.0;
-    private final int w, h, scale;
+    private final int w, h;
+    private static int scale;
     private final Window window;
     private final Screen screen;
     private final List<Body> bodies;
-
+    public final Input input;
+    private boolean god = false;
     private Sprite background;
+    private static int bottom;
+    private static int right;
 
     protected Chronos(String game, int w, int h, int scale, int backgroundColor) {
         this.w = w;
         this.h = h;
-        this.scale = scale;
+        Chronos.scale = scale;
         window = new Window(game, w, h, scale);
         screen = new Screen(w, h, backgroundColor, this);
         bodies = Collections.synchronizedList(new LinkedList<>());
-        new Input(this);
+        input = new Input(this);
+        right = w - 1;
+        bottom = h - 1;
         start();
     }
 
@@ -76,6 +84,7 @@ public abstract class Chronos {
         double currentTime = 0;
         double passedTime = 0;
         double totalTime = 0;
+        boolean b  = true;
         for (; ; ) {
             currentTime = System.nanoTime() / 10e8;
             passedTime = currentTime - startTime;
@@ -89,15 +98,18 @@ public abstract class Chronos {
                 onCollision();
                 updateBodies((float) passedTime * 10);
                 update();
+                input.update();
                 remove();
                 Signal.sendSignal(Signal.reset);
                 render = true;
                 if (god) return;
             }
-            if (!render) try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+            if (!render) {
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
             else {
                 window.update();
@@ -110,7 +122,14 @@ public abstract class Chronos {
 
 
     private void remove() {
-        IntStream.range(0, bodies.size()).filter(i -> bodies.get(i).destroyed).forEach(i -> bodies.remove(bodies.get(i)));
+        int bound = bodies.size();
+        for (int i = 0; i < bound; i++) {
+            if (bodies.get(i).destroyed) {
+                bodies.remove(bodies.get(i));
+                i--;
+                bound--;
+            }
+        }
     }
 
     private void updateBodies(float dt) {
@@ -118,22 +137,36 @@ public abstract class Chronos {
     }
 
     private void collision() {
-        IntStream.range(0, bodies.size()).forEachOrdered(i -> bodies.get(i).hitbox.collisionEvents(bodies, i));
+        int bound = bodies.size();
+        IntStream.range(0, bound).filter(i -> bodies.get(i).hitbox
+                != null).forEach(i -> bodies.get(i).hitbox.collisionEvents(bodies, i));
     }
 
     private void onCollisionEnter() {
-        bodies.stream().filter(b -> b.hitbox.collisionEvents[1] != null
-                && !b.destroyed).forEachOrdered(b -> b.onCollisionEnter(b.hitbox.collisionEvents[1]));
+        for (Body b : bodies) {
+            if (b.hitbox != null && !b.hitbox.collisionEvents[1].getCollisions().isEmpty()
+                    && !b.destroyed) {
+                b.onCollisionEnter(b.hitbox.collisionEvents[1]);
+            }
+        }
     }
 
     private void onCollisionExit() {
-        bodies.stream().filter(b -> b.hitbox.collisionEvents[2] != null
-                && !b.destroyed).forEachOrdered(b -> b.onCollisionExit(b.hitbox.collisionEvents[2]));
+        for (Body b : bodies) {
+            if (b.hitbox != null && !b.hitbox.collisionEvents[2].getCollisions().isEmpty()
+                    && !b.destroyed) {
+                b.onCollisionExit(b.hitbox.collisionEvents[2]);
+            }
+        }
     }
 
     private void onCollision() {
-        bodies.stream().filter(b -> b.hitbox.collisionEvents[0] != null
-                && !b.destroyed).forEachOrdered(b -> b.onCollision(b.hitbox.collisionEvents[0]));
+        for (Body b : bodies) {
+            if (b.hitbox != null && !b.hitbox.collisionEvents[0].getCollisions().isEmpty()
+                    && !b.destroyed) {
+                b.onCollision(b.hitbox.collisionEvents[0]);
+            }
+        }
     }
 
     public int getWidth() {
@@ -142,6 +175,10 @@ public abstract class Chronos {
 
     public int getHeight() {
         return h;
+    }
+
+    public static int scale() {
+        return scale;
     }
 
     public int getScale() {
@@ -194,5 +231,23 @@ public abstract class Chronos {
 
     protected void setBackground(Sprite background) {
         this.background = background;
+    }
+
+    public static int TOP() {
+        int top = 0;
+        return top;
+    }
+
+    public static int BOTTOM() {
+        return bottom;
+    }
+
+    public static int LEFT() {
+        int left = 0;
+        return left;
+    }
+
+    public static int RIGHT() {
+        return right;
     }
 }
