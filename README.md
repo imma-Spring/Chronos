@@ -46,8 +46,8 @@ The `KinematicBody` class is a specialized type of `Body` designed for game obje
         }
     }
 
-Using the StaticBody Class
-The StaticBody class represents game objects that do not have predefined motion and remain stationary in the game world. It provides specific behavior for static game objects.
+## Using the StaticBody Class
+The `StaticBody` class represents game objects that do not have predefined motion and remain stationary in the game world. It provides specific behavior for static game objects.
 
     public class Obstacle extends StaticBody {
 
@@ -65,8 +65,8 @@ The StaticBody class represents game objects that do not have predefined motion 
             // No update logic for a static obstacle
         }
     }
-Using the Signal Class
-The Signal class provides a simple messaging system that allows different parts of the game to communicate and exchange information.
+## Using the Signal Class
+The `Signal` class provides a simple messaging system that allows different parts of the game to communicate and exchange information.
 
     // Sending a signal
     Signal.sendSignal("player_hit", player, damage);
