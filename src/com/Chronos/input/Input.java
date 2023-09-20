@@ -3,7 +3,6 @@ package com.Chronos.input;
 import com.Chronos.engine.Chronos;
 
 import java.awt.event.*;
-import java.util.Arrays;
 
 public final class Input implements KeyListener, MouseListener, MouseMotionListener, MouseWheelListener {
     private final Chronos engine;
