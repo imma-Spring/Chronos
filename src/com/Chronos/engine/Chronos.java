@@ -7,10 +7,7 @@ import com.Chronos.render.Window;
 import com.Chronos.render.sprites.Sprite;
 import com.Chronos.util.vector.Vector2;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.IntStream;
 
 public abstract class Chronos {
@@ -100,7 +97,6 @@ public abstract class Chronos {
                 update();
                 input.update();
                 remove();
-                Signal.sendSignal(Signal.reset);
                 render = true;
                 if (god) return;
             }
@@ -225,6 +221,15 @@ public abstract class Chronos {
         return Optional.empty();
     }
 
+    protected List<Body> getBodies(Class<? extends Body> type) {
+        List<Body> bodies = new ArrayList<>();
+        for (Body b : this.bodies) {
+            if (b.getClass().equals(type))
+                bodies.add(b);
+        }
+        return bodies;
+    }
+
     protected int count(Class<? extends Body> type) {
         return (int) bodies.stream().filter(b -> b.getClass().equals(type)).count();
     }
@@ -234,8 +239,7 @@ public abstract class Chronos {
     }
 
     public static int TOP() {
-        int top = 0;
-        return top;
+        return 0;
     }
 
     public static int BOTTOM() {
@@ -243,8 +247,7 @@ public abstract class Chronos {
     }
 
     public static int LEFT() {
-        int left = 0;
-        return left;
+        return 0;
     }
 
     public static int RIGHT() {

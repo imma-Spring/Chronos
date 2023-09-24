@@ -29,7 +29,13 @@ public class Signal {
             signals.add(new Pair<>(message, lo));
             return;
         }
-        signals.stream().filter(signal -> signal.key.equals(message)).findFirst().ifPresent(signal -> signal.value.add(packets));
+        for (int i = 0; i < signals.size(); i++) {
+            Pair<String, List<Object[]>> stringListPair = signals.get(i);
+            if (stringListPair.key.equals(message)) {
+                signals.get(i).value.add(packets);
+                break;
+            }
+        }
     }
 
     private static boolean contains(String message) {
@@ -37,6 +43,11 @@ public class Signal {
     }
 
     private static List<Object[]> get(String message) {
-        return signals.stream().filter(signal -> signal.key.equals(message)).findFirst().map(signal -> signal.value).orElse(null);
+        for (Pair<String, List<Object[]>> stringListPair : signals) {
+            if (stringListPair.key.equals(message)) {
+                return stringListPair.value;
+            }
+        }
+        return null;
     }
 }
