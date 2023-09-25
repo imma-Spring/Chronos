@@ -1,5 +1,12 @@
 # Chronos
 ## A 2D game engine in Java
+![GitHub contributors](https://img.shields.io/github/contributors/imma-Spring/Chronos)
+[![GitHub issues](https://img.shields.io/github/issues/imma-Spring/Chronos)](https://github.com/imma-Spring/Chronos/issues)
+[![GitHub stars](https://img.shields.io/github/stars/imma-Spring/Chronost)](https://github.com/imma-Spring/Chronos/stargazers)
+![GitHub closed issues](https://img.shields.io/github/issues-closed/imma-Spring/Chronost)
+![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/imma-Spring/Chronos)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/imma-Spring/Chronos)
+[![GitHub license](https://img.shields.io/github/license/imma-Spring/Chronos)](https://github.com/imma-Spring/Chronos)
 
 The **Chronos Engine** is a Java-based game engine designed to provide a framework for creating 2D games. It offers functionalities for managing game objects, handling input, and rendering graphics. This engine is designed to be versatile and customizable, allowing developers to create a wide range of games.
 
