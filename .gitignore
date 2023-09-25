@@ -31,3 +31,4 @@ replay_pid*
 /src/*
 !/src/com/
 /out/
+/Chronos.iml
