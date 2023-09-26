@@ -5,11 +5,6 @@ import java.security.NoSuchProviderException;
 public class Vector2<T extends Number> extends Vector {
     public T x, y;
 
-    @SuppressWarnings("unchecked")
-    public Vector2() {
-        this((T) Integer.valueOf(0));
-    }
-
     public Vector2(T x_and_y) {
         this(x_and_y, x_and_y);
     }
@@ -262,7 +257,7 @@ public class Vector2<T extends Number> extends Vector {
 
     @SuppressWarnings("unchecked")
     public <U extends Number> Vector2<U> convert(U type) {
-        Vector2<U> returnVec = new Vector2<>();
+        Vector2<U> returnVec = new Vector2<>((U)Integer.valueOf(0));
         if (type instanceof Integer) {
             returnVec.x = (U) Integer.valueOf(this.x.intValue());
             returnVec.y = (U) Integer.valueOf(this.y.intValue());

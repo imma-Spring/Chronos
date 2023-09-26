@@ -22,7 +22,6 @@ public class RectangleOutline extends Rectangle {
     public void fill() {
         Arrays.fill(p, 0);
         for (int i = 0; i < thickness; i++) {
-            System.out.println(i);
             for (int j = i; j < w - i; j++) {
                 p[j + i * w] = color;
             }
