@@ -1,8 +1,8 @@
 # Chronos
 ## A 2D game engine in Java
 ![GitHub contributors](https://img.shields.io/github/contributors/imma-Spring/Chronos)
-[![GitHub issues](https://img.shields.io/github/issues/imma-Spring/Chronos)](https://github.com/imma-Spring/Chronos/issues)
 [![GitHub stars](https://img.shields.io/github/stars/imma-Spring/Chronos)](https://github.com/imma-Spring/Chronos/stargazers)
+[![GitHub issues](https://img.shields.io/github/issues/imma-Spring/Chronos)](https://github.com/imma-Spring/Chronos/issues)
 ![GitHub closed issues](https://img.shields.io/github/issues-closed/imma-Spring/Chronos)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/imma-Spring/Chronos)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/imma-Spring/Chronos)
