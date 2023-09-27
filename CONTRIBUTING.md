@@ -13,13 +13,13 @@ To start contributing, follow these steps:
    git clone https://github.com/imma-Spring/Chronos.git
     ```
    
-4. Create a new branch for your changes.
+3. Create a new branch for your changes.
 
      ```bash
    git checkout -b feature/your_feature
      ```
    
-6. Make your changes and test them thoroughly.
+4. Make your changes and test them thoroughly.
 
 ## Making Changes
 
@@ -91,7 +91,7 @@ private static final int MAX_SIZE = 100;
 
 ### Error Handling
 
-- Use try-catch blocks for handling exceptions(unless function is meant to throw an error, if so, mark function as `throws`.
+- Use try-catch blocks for handling exceptions(unless function is meant to throw an error, if so, mark function as `throws`).
 - Avoid catching generic exceptions unless necessary.
 ```java
 try {
@@ -137,7 +137,7 @@ When you are ready to submit your changes, follow these steps:
    git push origin feature/your_feature
      ```
   
-3. Create a [pull request](../../compare) from your forked repository to the original repository.
+2. Create a [pull request](../../compare) from your forked repository to the original repository.
 
 In your pull request, provide a clear description of the changes you have made and any relevant context.
 

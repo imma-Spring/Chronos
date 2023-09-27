@@ -13,13 +13,13 @@ public abstract class Shape extends Sprite {
     public Shape(int[] p, int w, int h, int scale, int color) {
         super(p, w, h, scale);
         this.color = color;
-        fill();
+//        fill();
     }
 
     public Shape(int[] p, int w, int h, int rotations, int scale, int color) {
         super(p, w, h, rotations, scale);
         this.color = color;
-        fill();
+//        fill();
     }
 
     public abstract void fill();
