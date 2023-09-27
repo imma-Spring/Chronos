@@ -22,10 +22,17 @@ The **Chronos Engine** is a Java-based game engine designed to provide a framewo
 
 - **Flexible Body Management**: Allows for the addition, removal, and updating of game objects (bodies).
 
+## Getting started
+
+1. Download the zip file
+2. Unzip the download
+3. Include it in you project
+4. Create a class and make it extend Chronos 
+
 ## Using the KinematicBody Class
 
 The `KinematicBody` class is a specialized type of `Body` designed for game objects with predefined motion that do not respond to external forces. It inherits properties and methods from the `Body` class and provides specific behavior for certain types of game objects.
-
+```java    
     public class MovingPlatform extends KinematicBody {
 
         private float speed;
@@ -52,10 +59,10 @@ The `KinematicBody` class is a specialized type of `Body` designed for game obje
             }
         }
     }
-
+```
 ## Using the StaticBody Class
 The `StaticBody` class represents game objects that do not have predefined motion and remain stationary in the game world. It provides specific behavior for static game objects.
-
+```java  
     public class Obstacle extends StaticBody {
 
         public Obstacle(Sprite sprite, Vector3<Float> position, String name) {
@@ -72,9 +79,10 @@ The `StaticBody` class represents game objects that do not have predefined motio
             // No update logic for a static obstacle
         }
     }
+```
 ## Using the Signal Class
 The `Signal` class provides a simple messaging system that allows different parts of the game to communicate and exchange information.
-
+```java  
     // Sending a signal
     Signal.sendSignal("player_hit", player, damage);
 
@@ -86,6 +94,7 @@ The `Signal` class provides a simple messaging system that allows different part
             // Process packets
         }
     }
+```
 ## Contributing
 Feel free to contribute to the Chronos Engine by reporting issues, suggesting improvements, or submitting pull requests.
 
