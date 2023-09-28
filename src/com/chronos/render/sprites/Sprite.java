@@ -109,7 +109,39 @@ public class Sprite {
      * @param rotations The number of clockwise rotations (90-degree increments).
      */
     public void rotate(int rotations) {
-        // TODO: Implement rotation logic
+        if(rotations < 0) {
+            rotations += 4;
+            rotations = Math.abs(rotations);
+        }
+        int[] m = new int[w * h];
+        if(rotations % 4 == 1) {
+            for (int x = 0; x < w; x++) {
+                for (int y = 0; y < h; y++) {
+                    m[y + x * h] = p[x + y * w];
+                }
+            }
+            p = m;
+            int q = w;
+            w = h;
+            h = q;
+        } else if (rotations % 4 == 2) {
+            for (int y = h - 1, j = 0; j < h; y--, j++) {
+                for (int x = w - 1, i = 0; i < w; x--, i++) {
+                    m[i + j * w] = p[x + y * w];
+                }
+            }
+            p = m;
+        } else if (rotations % 4 == 3) {
+            for (int x = w - 1, j = 0; j < w; x--, j++) {
+                for (int y = h - 1, i = 0; i < h; y--, i++) {
+                    m[i + j * h] = p[x + y * w];
+                }
+            }
+            p = m;
+            int q = w;
+            w = h;
+            h = q;
+        }
     }
 
     /**
@@ -117,9 +149,19 @@ public class Sprite {
      *
      * @param scale The scale factor.
      */
-    public void scale(int scale) {
-        // TODO: Implement scaling logic
+    public void scale(double scale) {
+        if(scale == 1 || scale == 0) return;
+        int[] m = new int[(int) ((w * scale) * (h * scale))];
+        for(double y = 0, i = 0; y < h; y += 1.0 / scale, i++) {
+            for(double x = 0, j = 0; x < w; x += 1.0 / scale, j++) {
+                m[(int)(j + i * (w * scale))] = p[(int)(x + (int)y * w)];
+            }
+        }
+        w *= (int) scale;
+        h *= (int) scale;
+        p = m;
     }
+
 
     /**
      * Gets the width of the sprite.
