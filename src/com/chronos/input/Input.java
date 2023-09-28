@@ -93,14 +93,14 @@ public final class Input implements KeyListener, MouseListener, MouseMotionListe
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        mouseX = (int)(e.getX() / engine.getScale());
-        mouseY = (int)(e.getY() / engine.getScale());
+        mouseX = e.getX() / engine.getScale();
+        mouseY = e.getY() / engine.getScale();
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        mouseX = (int)(e.getX() / engine.getScale());
-        mouseY = (int)(e.getY() / engine.getScale());
+        mouseX = e.getX() / engine.getScale();
+        mouseY = e.getY() / engine.getScale();
     }
 
     @Override

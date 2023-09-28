@@ -19,28 +19,26 @@ import java.util.stream.IntStream;
 public abstract class Chronos {
     // Constants
     public static final double MAX_FRAME_RATE = 1.0 / 60.0;
-
-    // Game window properties
-    private final int w, h;
     private static int scale;
-    private final Window window;
-    private final Screen screen;
-
-    // Game state
-    private final List<Body> bodies;
-    public final Input input;
-    private boolean god = false;
-    private Sprite background;
     private static int bottom;
     private static int right;
+    public final Input input;
+    // Game window properties
+    private final int w, h;
+    private final Window window;
+    private final Screen screen;
+    // Game state
+    private final List<Body> bodies;
+    private boolean god = false;
+    private Sprite background;
 
     /**
      * Constructs a Chronos game engine with specified parameters.
      *
-     * @param game The name of the game.
-     * @param w The width of the game window.
-     * @param h The height of the game window.
-     * @param scale The scale factor of the game window.
+     * @param game            The name of the game.
+     * @param w               The width of the game window.
+     * @param h               The height of the game window.
+     * @param scale           The scale factor of the game window.
      * @param backgroundColor The background color of the game window.
      */
     protected Chronos(String game, int w, int h, int scale, int backgroundColor) {
@@ -64,9 +62,9 @@ public abstract class Chronos {
     /**
      * Constructs a Chronos game engine with a square window of specified dimensions.
      *
-     * @param game           The name of the game.
-     * @param dim            The dimensions of the square game window.
-     * @param scale          The scale factor of the game window.
+     * @param game            The name of the game.
+     * @param dim             The dimensions of the square game window.
+     * @param scale           The scale factor of the game window.
      * @param backgroundColor The background color of the game window.
      */
     protected Chronos(String game, int dim, int scale, int backgroundColor) {
@@ -76,9 +74,9 @@ public abstract class Chronos {
     /**
      * Constructs a Chronos game engine with specified dimensions using a vector.
      *
-     * @param game           The name of the game.
-     * @param dim            A vector specifying the dimensions of the game window.
-     * @param scale          The scale factor of the game window.
+     * @param game            The name of the game.
+     * @param dim             A vector specifying the dimensions of the game window.
+     * @param scale           The scale factor of the game window.
      * @param backgroundColor The background color of the game window.
      */
     protected Chronos(String game, Vector2<Integer> dim, int scale, int backgroundColor) {
@@ -88,8 +86,8 @@ public abstract class Chronos {
     /**
      * Constructs a Chronos game engine with a square window of specified dimensions and background color.
      *
-     * @param game           The name of the game.
-     * @param dim            The dimensions of the square game window.
+     * @param game            The name of the game.
+     * @param dim             The dimensions of the square game window.
      * @param backgroundColor The background color of the game window.
      */
     protected Chronos(String game, int dim, int backgroundColor) {
@@ -99,8 +97,8 @@ public abstract class Chronos {
     /**
      * Constructs a Chronos game engine with specified dimensions using a vector and background color.
      *
-     * @param game           The name of the game.
-     * @param dim            A vector specifying the dimensions of the game window.
+     * @param game            The name of the game.
+     * @param dim             A vector specifying the dimensions of the game window.
      * @param backgroundColor The background color of the game window.
      */
     protected Chronos(String game, Vector2<Integer> dim, int backgroundColor) {
@@ -110,11 +108,31 @@ public abstract class Chronos {
     /**
      * Constructs a Chronos game engine with a default square window of 100x100 and background color.
      *
-     * @param game           The name of the game.
+     * @param game            The name of the game.
      * @param backgroundColor The background color of the game window.
      */
     protected Chronos(String game, int backgroundColor) {
         this(game, 100, 1, backgroundColor);
+    }
+
+    public static int scale() {
+        return scale;
+    }
+
+    public static int TOP() {
+        return 0;
+    }
+
+    public static int BOTTOM() {
+        return bottom;
+    }
+
+    public static int LEFT() {
+        return 0;
+    }
+
+    public static int RIGHT() {
+        return right;
     }
 
     /**
@@ -154,11 +172,11 @@ public abstract class Chronos {
     private void updateGame() {
         boolean render = false;
         double startTime = System.nanoTime() / 10e8;
-        double currentTime = 0;
-        double passedTime = 0;
+        double currentTime;
+        double passedTime;
         double totalTime = 0;
 
-        for (;;) {
+        for (; ; ) {
             currentTime = System.nanoTime() / 10e8;
             passedTime = currentTime - startTime;
             startTime = currentTime;
@@ -221,7 +239,8 @@ public abstract class Chronos {
 
     private void collision() {
         int bound = bodies.size();
-        IntStream.range(0, bound).filter(i -> bodies.get(i).hitbox != null).forEach(i -> bodies.get(i).hitbox.collisionEvents(bodies, i));
+        IntStream.range(0, bound).filter(i -> bodies.get(i).hitbox
+                != null).forEach(i -> bodies.get(i).hitbox.collisionEvents(bodies, i));
     }
 
     private void onCollisionEnter() {
@@ -254,10 +273,6 @@ public abstract class Chronos {
 
     public int getHeight() {
         return h;
-    }
-
-    public static int scale() {
-        return scale;
     }
 
     public int getScale() {
@@ -331,21 +346,5 @@ public abstract class Chronos {
 
     protected void setBackground(Sprite background) {
         this.background = background;
-    }
-
-    public static int TOP() {
-        return 0;
-    }
-
-    public static int BOTTOM() {
-        return bottom;
-    }
-
-    public static int LEFT() {
-        return 0;
-    }
-
-    public static int RIGHT() {
-        return right;
     }
 }

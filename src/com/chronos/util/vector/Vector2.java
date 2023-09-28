@@ -177,6 +177,10 @@ public class Vector2<T extends Number> extends Vector {
         return vec2_1;
     }
 
+    public static Vector2<Integer> center(Vector2<Integer> center, Vector2<Integer> size) {
+        return center.center(size, false);
+    }
+
     /**
      * Converts this Vector2 to a Vector3 with 0 as its z value.
      *
@@ -184,7 +188,7 @@ public class Vector2<T extends Number> extends Vector {
      */
     @SuppressWarnings("unchecked")
     public Vector3<?> toVec3() {
-        return (Vector3<?>) new Vector3<>(this);
+        return new Vector3<>(this);
     }
 
     /**

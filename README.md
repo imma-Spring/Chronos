@@ -35,8 +35,8 @@ The `KinematicBody` class is a specialized type of `Body` designed for game obje
 ```java    
     public class MovingPlatform extends KinematicBody {
 
-        private float speed;
-        private boolean directionRight;
+        private final float speed;
+        private final boolean directionRight;
 
         public MovingPlatform(Sprite sprite, Vector3<Float> position, String name, float speed) {
             super(sprite, position, name);

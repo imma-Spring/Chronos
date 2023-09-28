@@ -60,10 +60,9 @@ public class Signal {
             return;
         }
         // If the message already exists, add the packets to the existing entry
-        for (int i = 0; i < signals.size(); i++) {
-            Pair<String, List<Object[]>> stringListPair = signals.get(i);
+        for (Pair<String, List<Object[]>> stringListPair : signals) {
             if (stringListPair.key.equals(message)) {
-                signals.get(i).value.add(packets);
+                stringListPair.value.add(packets);
                 break;
             }
         }

@@ -45,12 +45,6 @@ public class Hitbox {
      * @param bodies The list of bodies to check for collision.
      * @param index  The index of the body associated with this hitbox.
      */
-    /**
-     * Calculates and updates collision events with other bodies.
-     *
-     * @param bodies The list of bodies to check for collision.
-     * @param index  The index of the body associated with this hitbox.
-     */
     public void collisionEvents(List<Body> bodies, int index) {
         // Calculate the position boundaries of this hitbox
         float top = position.y - (size.y / 2f);

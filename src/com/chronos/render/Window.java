@@ -10,10 +10,10 @@ import java.awt.image.BufferedImage;
  */
 public class Window extends JFrame {
 
-    private BufferedImage image;
-    private Canvas screen;
-    private BufferStrategy bs;
-    private Graphics g;
+    private final BufferedImage image;
+    private final Canvas screen;
+    private final BufferStrategy bs;
+    private final Graphics g;
 
     /**
      * Constructs a game window with specified parameters.
@@ -24,7 +24,7 @@ public class Window extends JFrame {
      * @param scale The scaling factor.
      */
     public Window(String game, int w, int h, int scale) {
-        super();
+        super(game);
 
         // Initialize image, canvas, and buffer strategy
         image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);

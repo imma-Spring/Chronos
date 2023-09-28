@@ -44,8 +44,4 @@ public abstract class Triangle extends Shape {
     public Vector2<Integer> getSize() {
         return new Vector2<>(w, h);
     }
-
-    public int getColor() {
-        return color;
-    }
 }

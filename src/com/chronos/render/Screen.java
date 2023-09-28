@@ -19,7 +19,7 @@ public class Screen {
     private final int pW; // Pixel width
     private final int pH; // Pixel height
     private final int[] p; // Pixel array
-    private int[] zB; // Z-buffer (depth buffer)
+    private final int[] zB; // Z-buffer (depth buffer)
     public int backgroundColor;
 
     public final Vector2<Integer> center;
