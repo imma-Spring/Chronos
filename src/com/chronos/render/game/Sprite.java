@@ -1,4 +1,4 @@
-package com.chronos.render.sprites;
+package com.chronos.render.game;
 
 import com.chronos.exceptions.ImageNotFoundException;
 import com.chronos.util.vector.Vector2;

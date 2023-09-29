@@ -2,7 +2,7 @@ package com.chronos.render;
 
 import com.chronos.body.Body;
 import com.chronos.engine.Chronos;
-import com.chronos.render.sprites.Sprite;
+import com.chronos.render.game.Sprite;
 import com.chronos.util.vector.Vector2;
 
 import java.awt.image.DataBufferInt;

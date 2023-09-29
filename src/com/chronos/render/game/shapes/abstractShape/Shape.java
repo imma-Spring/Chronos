@@ -1,6 +1,6 @@
-package com.chronos.render.sprites.shapes.abstractShape;
+package com.chronos.render.game.shapes.abstractShape;
 
-import com.chronos.render.sprites.Sprite;
+import com.chronos.render.game.Sprite;
 import com.chronos.util.vector.Vector2;
 
 /**

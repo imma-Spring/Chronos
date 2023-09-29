@@ -1,4 +1,4 @@
-package com.chronos.render.sprites.shapes.abstractShape;
+package com.chronos.render.game.shapes.abstractShape;
 
 /**
  * Abstract class representing a square, which is a special case of a rectangle.

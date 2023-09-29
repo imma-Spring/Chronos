@@ -2,7 +2,7 @@ package com.chronos.body;
 
 import com.chronos.physics.CollisionEvent;
 import com.chronos.physics.Hitbox;
-import com.chronos.render.sprites.Sprite;
+import com.chronos.render.game.Sprite;
 import com.chronos.util.vector.Vector3;
 
 import java.util.Objects;

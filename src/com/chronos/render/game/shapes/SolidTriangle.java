@@ -1,6 +1,6 @@
-package com.chronos.render.sprites.shapes;
+package com.chronos.render.game.shapes;
 
-import com.chronos.render.sprites.shapes.abstractShape.Triangle;
+import com.chronos.render.game.shapes.abstractShape.Triangle;
 import com.chronos.util.vector.Vector2;
 import com.chronos.util.vector.Vector3;
 

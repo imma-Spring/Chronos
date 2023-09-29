@@ -4,7 +4,7 @@ import com.chronos.body.Body;
 import com.chronos.input.Input;
 import com.chronos.render.Screen;
 import com.chronos.render.Window;
-import com.chronos.render.sprites.Sprite;
+import com.chronos.render.game.Sprite;
 import com.chronos.util.vector.Vector2;
 
 import java.util.*;

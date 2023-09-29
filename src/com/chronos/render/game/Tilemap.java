@@ -1,7 +1,6 @@
-package com.chronos.render.sprites;
+package com.chronos.render.game;
 
 import com.chronos.exceptions.ImageNotFoundException;
-import com.chronos.util.Convert;
 
 public class Tilemap extends Sprite {
     private Sprite[][] tilemap;

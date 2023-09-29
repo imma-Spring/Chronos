@@ -1,6 +1,6 @@
-package com.chronos.render.sprites.shapes;
+package com.chronos.render.game.shapes;
 
-import com.chronos.render.sprites.shapes.abstractShape.Rectangle;
+import com.chronos.render.game.shapes.abstractShape.Rectangle;
 
 import java.util.Arrays;
 
