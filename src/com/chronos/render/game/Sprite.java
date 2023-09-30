@@ -55,7 +55,6 @@ public class Sprite {
 
         w = image.getWidth();
         h = image.getHeight();
-        System.out.printf("Width: %d, Height: %d\n", w, h); // Add this line to print the dimensions
         p = image.getRGB(0, 0, w, h, null, 0, w);
         image.flush();
 

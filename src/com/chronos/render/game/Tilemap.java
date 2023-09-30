@@ -8,7 +8,6 @@ public class Tilemap extends Sprite {
 
     public Tilemap(String path, int cols, int rows) throws ImageNotFoundException {
         super(path);
-        System.out.printf("Width: %d, Height: %d\n", w, h); // Add this line to print the dimensions
         this.cols = cols;
         this.rows = rows;
         updateTileMap();
