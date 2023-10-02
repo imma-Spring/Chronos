@@ -2,6 +2,7 @@ package com.chronos.render.game;
 
 import com.chronos.exceptions.ImageNotFoundException;
 import com.chronos.render.SpriteSource;
+import com.chronos.util.Convert;
 import com.chronos.util.vector.Vector2;
 
 import javax.imageio.ImageIO;
@@ -203,4 +204,45 @@ public class Sprite implements SpriteSource {
     public Sprite getSprite() {
         return this;
     }
+
+    public static Sprite blur(Sprite sprite, int blurSize) {
+        int[] pixels = sprite.p();
+        int width = sprite.w();
+        int height = sprite.h();
+        int[] blurredPixels = new int[width * height];
+        int weightsSum = (2 * blurSize + 1) * (2 * blurSize + 1);
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                int totalAlpha = 0;
+                int totalRed = 0;
+                int totalGreen = 0;
+                int totalBlue = 0;
+
+                for (int dy = -blurSize; dy <= blurSize; dy++) {
+                    for (int dx = -blurSize; dx <= blurSize; dx++) {
+                        int nx = Math.min(Math.max(x + dx, 0), width - 1);
+                        int ny = Math.min(Math.max(y + dy, 0), height - 1);
+                        int color = pixels[nx + ny * width];
+                        totalAlpha += (color >>> 24) & 0xFF;
+                        totalRed += (color >> 16) & 0xFF;
+                        totalGreen += (color >> 8) & 0xFF;
+                        totalBlue += color & 0xFF;
+                    }
+                }
+
+                int avgAlpha = totalAlpha / weightsSum;
+                int avgRed = totalRed / weightsSum;
+                int avgGreen = totalGreen / weightsSum;
+                int avgBlue = totalBlue / weightsSum;
+
+                blurredPixels[x + y * width] = (avgAlpha << 24) | (avgRed << 16) | (avgGreen << 8) | avgBlue;
+            }
+        }
+
+        return new Sprite(blurredPixels, width, height);
+    }
+
+
+
 }
