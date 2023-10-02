@@ -1,5 +1,6 @@
 package com.chronos.body;
 
+import com.chronos.render.SpriteSource;
 import com.chronos.render.game.Sprite;
 import com.chronos.util.vector.Vector3;
 
@@ -14,7 +15,7 @@ public abstract class StaticBody extends Body {
      * @param position The initial position of the body.
      * @param name     The name of the body.
      */
-    protected StaticBody(Sprite sprite, Vector3<Float> position, String name) {
+    protected StaticBody(SpriteSource sprite, Vector3<Float> position, String name) {
         super(sprite, position, name);
     }
 
@@ -27,7 +28,7 @@ public abstract class StaticBody extends Body {
      * @param z      The z-coordinate of the initial position.
      * @param name   The name of the body.
      */
-    protected StaticBody(Sprite sprite, float x, float y, int z, String name) {
+    protected StaticBody(SpriteSource sprite, float x, float y, int z, String name) {
         super(sprite, x, y, z, name);
     }
 
@@ -38,6 +39,6 @@ public abstract class StaticBody extends Body {
      */
     @Override
     public Sprite getSprite() {
-        return sprite;
+        return (Sprite) sprite;
     }
 }

@@ -2,6 +2,7 @@ package com.chronos.body;
 
 import com.chronos.physics.CollisionEvent;
 import com.chronos.physics.Hitbox;
+import com.chronos.render.SpriteSource;
 import com.chronos.render.game.Sprite;
 import com.chronos.util.vector.Vector3;
 
@@ -14,7 +15,7 @@ public abstract class Body {
     protected final String name;  // Name of the body
     public Hitbox hitbox;  // The hitbox of the body
     protected Vector3<Float> position;  // The position of the body
-    protected Sprite sprite;  // The sprite representing the body
+    protected SpriteSource sprite;  // The sprite representing the body
     public boolean destroyed;  // Flag indicating if the body is destroyed
 
     /**
@@ -24,7 +25,7 @@ public abstract class Body {
      * @param position The initial position of the body.
      * @param name     The name of the body.
      */
-    protected Body(Sprite sprite, Vector3<Float> position, String name) {
+    protected Body(SpriteSource sprite, Vector3<Float> position, String name) {
         this.sprite = sprite;
         this.position = position;
         this.name = name;
@@ -40,7 +41,7 @@ public abstract class Body {
      * @param z      The z-coordinate of the initial position.
      * @param name   The name of the body.
      */
-    protected Body(Sprite sprite, float x, float y, int z, String name) {
+    protected Body(SpriteSource sprite, float x, float y, int z, String name) {
         this(sprite, new Vector3<>(x, y, (float) z), name);
     }
 

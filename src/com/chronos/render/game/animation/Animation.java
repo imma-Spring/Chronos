@@ -1,6 +1,8 @@
-package com.chronos.render.game;
+package com.chronos.render.game.animation;
 
 import com.chronos.exceptions.ImageNotFoundException;
+import com.chronos.render.game.Sprite;
+import com.chronos.render.game.Tilemap;
 
 public class Animation extends Tilemap {
     private double lastCallTime;
@@ -13,6 +15,11 @@ public class Animation extends Tilemap {
         y = 0;
         x  = 0;
         this.fps = fps;
+    }
+
+    public void reset() {
+        y = 0;
+        x = 0;
     }
 
     public Sprite getSprite() {

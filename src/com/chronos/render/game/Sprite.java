@@ -1,6 +1,7 @@
 package com.chronos.render.game;
 
 import com.chronos.exceptions.ImageNotFoundException;
+import com.chronos.render.SpriteSource;
 import com.chronos.util.vector.Vector2;
 
 import javax.imageio.ImageIO;
@@ -11,7 +12,7 @@ import java.io.IOException;
 /**
  * Represents a sprite.
  */
-public class Sprite {
+public class Sprite implements SpriteSource {
 
     protected int[] p; // Pixel array
     protected int w, h; // Width and height of the sprite
@@ -197,5 +198,9 @@ public class Sprite {
      */
     public Vector2<Integer> getSize() {
         return new Vector2<>(w, h);
+    }
+
+    public Sprite getSprite() {
+        return this;
     }
 }
