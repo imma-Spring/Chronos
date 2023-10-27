@@ -47,6 +47,11 @@ public class SoundClip {
         }
     }
 
+    /**
+     * Constructs a SoundClip object from a ByteArrayInputStream.
+     *
+     * @param inputStream The ByteArrayInputStream containing audio data.
+     */
     public SoundClip(ByteArrayInputStream inputStream) {
         try {
             AudioInputStream ais = AudioSystem.getAudioInputStream(inputStream);
