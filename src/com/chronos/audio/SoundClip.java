@@ -5,6 +5,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
+import java.io.ByteArrayInputStream;
 
 /**
  * Represents a sound clip that can be played.
@@ -37,6 +38,22 @@ public class SoundClip {
             // Open the clip for playback
             clip = AudioSystem.getClip();
             clip.open(dais);
+
+            // Get the gain control for volume adjustment
+            gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public SoundClip(ByteArrayInputStream inputStream) {
+        try {
+            AudioInputStream ais = AudioSystem.getAudioInputStream(inputStream);
+
+            // Open the clip for playback
+            clip = AudioSystem.getClip();
+            clip.open(ais);
 
             // Get the gain control for volume adjustment
             gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
