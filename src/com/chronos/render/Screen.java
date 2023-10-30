@@ -21,6 +21,7 @@ public class Screen {
     private final int[] p; // Pixel array
     private final int[] zB; // Z-buffer (depth buffer)
     public int backgroundColor;
+    public static boolean blur; // Is the contents of the screen blurred?
 
     public final Vector2<Integer> center;
 
@@ -141,6 +142,48 @@ public class Screen {
                 int x = position.x + j, y = position.y + i;
                 drawPixel(x, y, sprite.p()[j + i * sprite.w()]);
             }
+        if (blur) {
+            blur();
+        }
+    }
+
+    /**
+     * Blurs the screen
+     */
+    private void blur() {
+        int width = pW;
+        int height = pH;
+        int[] blurredPixels = new int[width * height];
+        int weightsSum = (2  + 1) * (2  + 1);
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                int totalAlpha = 0;
+                int totalRed = 0;
+                int totalGreen = 0;
+                int totalBlue = 0;
+
+                for (int dy = -1; dy <= 1; dy++) {
+                    for (int dx = -1; dx <= 1; dx++) {
+                        int nx = Math.min(Math.max(x + dx, 0), width - 1);
+                        int ny = Math.min(Math.max(y + dy, 0), height - 1);
+                        int color = p[nx + ny * width];
+                        totalAlpha += (color >>> 24) & 0xFF;
+                        totalRed += (color >> 16) & 0xFF;
+                        totalGreen += (color >> 8) & 0xFF;
+                        totalBlue += color & 0xFF;
+                    }
+                }
+
+                int avgAlpha = totalAlpha / weightsSum;
+                int avgRed = totalRed / weightsSum;
+                int avgGreen = totalGreen / weightsSum;
+                int avgBlue = totalBlue / weightsSum;
+
+                blurredPixels[x + y * width] = (avgAlpha << 24) | (avgRed << 16) | (avgGreen << 8) | avgBlue;
+            }
+        }
+        System.arraycopy(blurredPixels, 0, p, 0, p.length);
     }
 
     /**

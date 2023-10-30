@@ -48,27 +48,6 @@ public class SoundClip {
     }
 
     /**
-     * Constructs a SoundClip object from a ByteArrayInputStream.
-     *
-     * @param inputStream The ByteArrayInputStream containing audio data.
-     */
-    public SoundClip(ByteArrayInputStream inputStream) {
-        try {
-            AudioInputStream ais = AudioSystem.getAudioInputStream(inputStream);
-
-            // Open the clip for playback
-            clip = AudioSystem.getClip();
-            clip.open(ais);
-
-            // Get the gain control for volume adjustment
-            gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
      * Plays the sound clip.
      */
     public void play() {
